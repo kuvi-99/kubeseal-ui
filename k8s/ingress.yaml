@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kubeseal-ui
+  namespace: sealed-secrets
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: internal
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-allow-vpn@kubernetescrd
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - kubeseal.local.tlboos.com
+      secretName: kubeseal-ui-tls
+  rules:
+    - host: kubeseal.local.tlboos.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kubeseal-ui
+                port:
+                  number: 80

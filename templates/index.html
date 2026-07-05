@@ -17,246 +17,229 @@
     .card {
       background: rgba(22, 27, 34, 0.95);
       border: 1px solid rgba(99, 102, 241, 0.2);
-      box-shadow:
-        0 0 0 1px rgba(99, 102, 241, 0.05),
-        0 8px 32px rgba(0, 0, 0, 0.5),
-        0 0 80px rgba(99, 102, 241, 0.06);
+      box-shadow: 0 0 0 1px rgba(99,102,241,0.05), 0 8px 32px rgba(0,0,0,0.5), 0 0 80px rgba(99,102,241,0.06);
     }
 
     .field {
       background: rgba(13, 17, 23, 0.8) !important;
       border: 1px solid rgba(99, 102, 241, 0.2);
       color: #e6edf3 !important;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
       -webkit-text-fill-color: #e6edf3 !important;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-
     .field:focus {
       outline: none;
-      border-color: rgba(99, 102, 241, 0.6);
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12), 0 0 20px rgba(99, 102, 241, 0.08);
+      border-color: rgba(99,102,241,0.6);
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.12), 0 0 20px rgba(99,102,241,0.08);
     }
-
     .field::placeholder { color: #3d4451 !important; }
 
-    textarea.field {
-      font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
-      font-size: 0.82rem;
-      line-height: 1.6;
-      resize: vertical;
-    }
-
-    .encrypted-value {
-      font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
-      font-size: 0.82rem;
-      background: rgba(13, 17, 23, 0.8);
-      border: 1px solid rgba(34, 197, 94, 0.25);
-      color: #86efac;
-      word-break: break-all;
-    }
+    .entry-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; align-items: center; }
 
     .yaml-block {
       font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
       font-size: 0.78rem;
-      background: rgba(13, 17, 23, 0.8);
-      border: 1px solid rgba(99, 102, 241, 0.15);
+      background: rgba(13,17,23,0.8);
+      border: 1px solid rgba(99,102,241,0.15);
       color: #c9d1d9;
       line-height: 1.7;
     }
+    .yaml-key { color: #79c0ff; }
+    .yaml-enc { color: #ffd700; }
+    .yaml-cmt { color: #484f58; }
 
-    .yaml-key   { color: #79c0ff; }
-    .yaml-val   { color: #a5d6ff; }
-    .yaml-str   { color: #a8ff78; }
-    .yaml-enc   { color: #ffd700; }
-    .yaml-cmt   { color: #484f58; }
-
-    .btn-encrypt {
+    .btn-primary {
       background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-      transition: all 0.2s ease;
+      box-shadow: 0 4px 15px rgba(99,102,241,0.3);
+      transition: all 0.2s;
     }
-    .btn-encrypt:hover:not(:disabled) {
-      box-shadow: 0 6px 25px rgba(99, 102, 241, 0.5);
-      transform: translateY(-1px);
+    .btn-primary:hover:not(:disabled) { box-shadow: 0 6px 25px rgba(99,102,241,0.5); transform: translateY(-1px); }
+    .btn-primary:active:not(:disabled) { transform: translateY(0); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .btn-add {
+      border: 1px dashed rgba(99,102,241,0.35);
+      color: #6366f1;
+      transition: all 0.15s;
+      background: transparent;
     }
-    .btn-encrypt:active:not(:disabled) { transform: translateY(0); }
-    .btn-encrypt:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-add:hover { border-color: rgba(99,102,241,0.7); background: rgba(99,102,241,0.07); }
+
+    .btn-remove {
+      color: #484f58;
+      transition: color 0.15s;
+      background: none; border: none; cursor: pointer;
+      font-size: 1.1rem; line-height: 1; padding: 4px 6px;
+    }
+    .btn-remove:hover { color: #ef4444; }
 
     .btn-copy {
-      background: rgba(34, 197, 94, 0.12);
-      border: 1px solid rgba(34, 197, 94, 0.3);
-      color: #86efac;
-      transition: all 0.15s ease;
-      font-size: 0.72rem;
-    }
-    .btn-copy:hover { background: rgba(34, 197, 94, 0.22); }
-    .btn-copy.copied { background: rgba(34, 197, 94, 0.25); border-color: rgba(34, 197, 94, 0.6); }
-
-    .btn-copy-yaml {
-      background: rgba(99, 102, 241, 0.12);
-      border: 1px solid rgba(99, 102, 241, 0.3);
+      background: rgba(99,102,241,0.12);
+      border: 1px solid rgba(99,102,241,0.3);
       color: #a5b4fc;
-      transition: all 0.15s ease;
+      transition: all 0.15s;
       font-size: 0.72rem;
     }
-    .btn-copy-yaml:hover { background: rgba(99, 102, 241, 0.22); }
-    .btn-copy-yaml.copied { background: rgba(99, 102, 241, 0.25); border-color: rgba(99, 102, 241, 0.6); }
+    .btn-copy:hover { background: rgba(99,102,241,0.22); }
+    .btn-copy.copied { background: rgba(34,197,94,0.15); border-color: rgba(34,197,94,0.4); color: #86efac; }
 
-    .error-box {
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #fca5a5;
-    }
+    .error-box { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; }
 
     .spinner {
       width: 16px; height: 16px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
+      border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff;
+      border-radius: 50%; animation: spin 0.7s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .label-text {
-      color: #8b949e;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
+    .label-text { color: #8b949e; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
     .glow-dot {
-      width: 8px; height: 8px;
-      background: #6366f1;
-      border-radius: 50%;
-      box-shadow: 0 0 10px rgba(99, 102, 241, 0.9);
-      animation: pulse 2s ease-in-out infinite;
-      flex-shrink: 0;
+      width: 8px; height: 8px; background: #6366f1; border-radius: 50%;
+      box-shadow: 0 0 10px rgba(99,102,241,0.9); animation: pulse 2s ease-in-out infinite; flex-shrink: 0;
     }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
-
     .hint { color: #484f58; font-size: 0.72rem; }
     .hint code { color: #6366f1; font-family: 'JetBrains Mono', ui-monospace, monospace; }
   </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
 
-  <div class="card rounded-2xl p-8 w-full max-w-xl">
+  <div class="card rounded-2xl p-8 w-full max-w-2xl">
 
     <!-- Header -->
     <div class="flex items-center gap-3 mb-7">
       <div class="glow-dot"></div>
       <div>
         <h1 class="text-lg font-semibold text-white tracking-tight">kubeseal-ui</h1>
-        <p class="text-xs text-gray-500 mt-0.5">Encrypt a secret value for Sealed Secrets</p>
+        <p class="text-xs text-gray-500 mt-0.5">Encrypt secret values for Sealed Secrets</p>
       </div>
     </div>
 
     <!-- Namespace + Secret name -->
-    <div class="grid grid-cols-2 gap-3 mb-4">
+    <div class="grid grid-cols-2 gap-3 mb-5">
       <div>
         <label class="label-text block mb-1.5">Namespace</label>
-        <input id="namespace" type="text" placeholder="my-namespace"
-          class="field w-full rounded-lg px-3 py-2 text-sm" />
+        <input id="namespace" type="text" placeholder="my-namespace" class="field w-full rounded-lg px-3 py-2 text-sm" />
       </div>
       <div>
         <label class="label-text block mb-1.5">Secret name</label>
-        <input id="name" type="text" placeholder="my-secret"
-          class="field w-full rounded-lg px-3 py-2 text-sm" />
+        <input id="name" type="text" placeholder="my-secret" class="field w-full rounded-lg px-3 py-2 text-sm" />
       </div>
     </div>
 
-    <!-- Raw value -->
-    <div class="mb-5">
-      <label class="label-text block mb-1.5">Raw value</label>
-      <textarea id="value" rows="4" class="field w-full rounded-lg px-3 py-2.5"
-        placeholder="paste secret value here…"></textarea>
-      <p class="hint mt-1.5">One value at a time. Encrypt each key separately and add them to the same secret.</p>
+    <!-- Column headers -->
+    <div class="entry-row mb-2 px-1">
+      <span class="label-text">Key name</span>
+      <span class="label-text">Value</span>
+      <span></span>
     </div>
+
+    <!-- Entries -->
+    <div id="entries" class="space-y-2 mb-3"></div>
+
+    <!-- Add key button -->
+    <button onclick="addRow()" class="btn-add w-full py-2 rounded-lg text-sm font-medium mb-5">
+      + Add key
+    </button>
 
     <!-- Encrypt button -->
     <button id="encryptBtn" onclick="encrypt()"
-      class="btn-encrypt w-full py-2.5 rounded-xl text-white font-medium text-sm flex items-center justify-center gap-2">
+      class="btn-primary w-full py-2.5 rounded-xl text-white font-medium text-sm flex items-center justify-center gap-2">
       <div class="spinner hidden" id="spinner"></div>
-      <span id="btnText">Encrypt</span>
+      <span id="btnText">Encrypt All</span>
     </button>
 
     <!-- Error -->
     <div id="errorBox" class="hidden error-box rounded-lg px-4 py-3 mt-4 text-sm font-mono whitespace-pre-wrap"></div>
 
-    <!-- Output block -->
-    <div id="outputBlock" class="hidden mt-6 space-y-4">
-
-      <!-- Encrypted string -->
-      <div>
-        <div class="flex items-center justify-between mb-2">
-          <label class="label-text">Encrypted value</label>
-          <button id="copyBtn" onclick="copyEncrypted()"
-            class="btn-copy px-3 py-1.5 rounded-lg font-medium">Copy</button>
-        </div>
-        <div id="encryptedOutput" class="encrypted-value rounded-lg px-4 py-3 leading-relaxed"></div>
+    <!-- Output -->
+    <div id="outputBlock" class="hidden mt-6">
+      <div class="flex items-center justify-between mb-2">
+        <label class="label-text">Add to values.yaml</label>
+        <button id="copyBtn" onclick="copyYaml()" class="btn-copy px-3 py-1.5 rounded-lg font-medium">Copy YAML</button>
       </div>
-
-      <!-- YAML snippet -->
-      <div>
-        <div class="flex items-center justify-between mb-2">
-          <label class="label-text">Add to values.yaml</label>
-          <button id="copyYamlBtn" onclick="copyYaml()"
-            class="btn-copy-yaml px-3 py-1.5 rounded-lg font-medium">Copy YAML</button>
-        </div>
-        <pre id="yamlSnippet" class="yaml-block rounded-lg px-4 py-3 overflow-x-auto"></pre>
-        <p class="hint mt-2">
-          Replace <code>YOUR_KEY</code> with the env variable name (e.g. <code>DB_PASSWORD</code>).
-          Encrypt each value separately and add them to <code>encryptedData</code>.
-        </p>
-      </div>
-
+      <pre id="yamlOutput" class="yaml-block rounded-lg px-4 py-3 overflow-x-auto whitespace-pre-wrap break-all"></pre>
+      <p class="hint mt-2">
+        Reference in container: <code>envFrom: [{secretRef: {name: &lt;secret-name&gt;}}]</code>
+      </p>
     </div>
+
   </div>
 
   <script>
-    let lastEncrypted = '';
-    let lastNamespace = '';
-    let lastName = '';
+    let rowId = 0;
+    let lastYaml = '';
 
-    function buildYaml(ns, name, enc) {
-      return [
-        `secrets:`,
-        `  sealed:`,
-        `    - name: ${name}`,
-        `      encryptedData:`,
-        `        YOUR_KEY: ${enc}`,
-        ``,
-        `# Reference in container:`,
-        `# deployment:`,
-        `#   containers:`,
-        `#     - envFrom:`,
-        `#         - secretRef:`,
-        `#             name: ${name}`,
-      ].join('\n');
+    function addRow(key = '', value = '') {
+      const id = rowId++;
+      const div = document.createElement('div');
+      div.className = 'entry-row';
+      div.id = `row-${id}`;
+      div.innerHTML = `
+        <input type="text" placeholder="DB_PASSWORD" value="${escHtml(key)}"
+          class="field rounded-lg px-3 py-2 text-sm" data-role="key" />
+        <input type="text" placeholder="secret value" value="${escHtml(value)}"
+          class="field rounded-lg px-3 py-2 text-sm font-mono" data-role="value" />
+        <button class="btn-remove" onclick="removeRow(${id})" title="Remove">×</button>
+      `;
+      document.getElementById('entries').appendChild(div);
     }
 
-    function renderYaml(ns, name, enc) {
-      const el = document.getElementById('yamlSnippet');
-      // simple syntax highlight via innerHTML
-      const yaml = buildYaml(ns, name, enc);
-      el.innerHTML = yaml
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-        .replace(/(secrets:|sealed:|encryptedData:|deployment:|containers:|envFrom:)/g,
-          '<span class="yaml-key">$1</span>')
-        .replace(/(- name:|name:|YOUR_KEY:)/g,
-          '<span class="yaml-key">$1</span>')
-        .replace(/(#.*)/g, '<span class="yaml-cmt">$1</span>')
-        .replace(new RegExp(enc.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'),
-          `<span class="yaml-enc">${enc}</span>`)
-        .replace(/(- secretRef:|secretRef:)/g,
-          '<span class="yaml-key">$1</span>');
+    function removeRow(id) {
+      const el = document.getElementById(`row-${id}`);
+      if (el) el.remove();
+    }
+
+    function escHtml(s) {
+      return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function getEntries() {
+      return [...document.getElementById('entries').querySelectorAll('.entry-row')].map(row => ({
+        key:   row.querySelector('[data-role=key]').value.trim(),
+        value: row.querySelector('[data-role=value]').value,
+      }));
+    }
+
+    function buildYaml(name, encrypted) {
+      const lines = [
+        'secrets:',
+        '  sealed:',
+        `    - name: ${name}`,
+        '      encryptedData:',
+        ...Object.entries(encrypted).map(([k, v]) => `        ${k}: ${v}`),
+        '',
+        '# Reference in container:',
+        '# deployment:',
+        '#   containers:',
+        '#     - envFrom:',
+        '#         - secretRef:',
+        `#             name: ${name}`,
+      ];
+      return lines.join('\n');
+    }
+
+    function renderYaml(name, encrypted) {
+      const raw = buildYaml(name, encrypted);
+      lastYaml = raw;
+      const el = document.getElementById('yamlOutput');
+      el.innerHTML = raw
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/(secrets:|sealed:|encryptedData:|deployment:|containers:|envFrom:)/g, '<span class="yaml-key">$1</span>')
+        .replace(/(- name:|name:|secretRef:)/g, '<span class="yaml-key">$1</span>')
+        .replace(/(#.*)/g, '<span class="yaml-cmt">$1</span>');
+
+      // highlight encrypted values (long base64 strings)
+      Object.values(encrypted).forEach(v => {
+        const safe = v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        el.innerHTML = el.innerHTML.replace(new RegExp(safe, 'g'), `<span class="yaml-enc">${v}</span>`);
+      });
     }
 
     async function encrypt() {
       const namespace = document.getElementById('namespace').value.trim();
       const name = document.getElementById('name').value.trim();
-      const value = document.getElementById('value').value;
+      const entries = getEntries();
       const btn = document.getElementById('encryptBtn');
       const spinner = document.getElementById('spinner');
       const btnText = document.getElementById('btnText');
@@ -268,7 +251,12 @@
 
       if (!namespace) return showError('Namespace is required.');
       if (!name)      return showError('Secret name is required.');
-      if (!value.trim()) return showError('Raw value is empty.');
+      if (!entries.length) return showError('Add at least one key.');
+
+      const emptyKey = entries.find(e => !e.key);
+      if (emptyKey) return showError('Key name cannot be empty.');
+      const emptyVal = entries.find(e => !e.value.trim());
+      if (emptyVal) return showError(`Value for key "${emptyVal.key || '?'}" is empty.`);
 
       btn.disabled = true;
       spinner.classList.remove('hidden');
@@ -278,24 +266,19 @@
         const resp = await fetch('/encrypt', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ value, namespace, name }),
+          body: JSON.stringify({ namespace, name, entries }),
         });
         const data = await resp.json();
         if (!resp.ok) { showError(data.detail || `Error ${resp.status}`); return; }
 
-        lastEncrypted = data.encrypted;
-        lastNamespace = namespace;
-        lastName = name;
-
-        document.getElementById('encryptedOutput').textContent = data.encrypted;
-        renderYaml(namespace, name, data.encrypted);
+        renderYaml(name, data.encrypted);
         outputBlock.classList.remove('hidden');
       } catch (e) {
         showError('Network error: ' + e.message);
       } finally {
         btn.disabled = false;
         spinner.classList.add('hidden');
-        btnText.textContent = 'Encrypt';
+        btnText.textContent = 'Encrypt All';
       }
     }
 
@@ -305,16 +288,9 @@
       el.classList.remove('hidden');
     }
 
-    async function copyEncrypted() {
-      await navigator.clipboard.writeText(lastEncrypted);
-      const btn = document.getElementById('copyBtn');
-      btn.textContent = 'Copied!'; btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
-    }
-
     async function copyYaml() {
-      await navigator.clipboard.writeText(buildYaml(lastNamespace, lastName, lastEncrypted));
-      const btn = document.getElementById('copyYamlBtn');
+      await navigator.clipboard.writeText(lastYaml);
+      const btn = document.getElementById('copyBtn');
       btn.textContent = 'Copied!'; btn.classList.add('copied');
       setTimeout(() => { btn.textContent = 'Copy YAML'; btn.classList.remove('copied'); }, 2000);
     }
@@ -322,6 +298,9 @@
     document.addEventListener('keydown', e => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') encrypt();
     });
+
+    // Start with one empty row
+    addRow();
   </script>
 
 </body>

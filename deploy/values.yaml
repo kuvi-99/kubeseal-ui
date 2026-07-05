@@ -4,7 +4,7 @@ serviceName: kubeseal-ui
 deployment:
   containers:
     - name: app
-      image: ghcr.io/kuvi-99/kubeseal-ui:1
+      image: ghcr.io/kuvi-99/kubeseal-ui:2
       imagePullPolicy: Always
       ports:
         - name: http

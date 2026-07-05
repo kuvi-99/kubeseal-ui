@@ -44,11 +44,13 @@ async def get_cert() -> str:
 
 
 class EncryptRequest(BaseModel):
-    secret_yaml: str
+    value: str
+    namespace: str
+    name: str
 
 
 class EncryptResponse(BaseModel):
-    sealed_yaml: str
+    encrypted: str
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -58,8 +60,12 @@ async def index(request: Request):
 
 @app.post("/encrypt", response_model=EncryptResponse)
 async def encrypt(payload: EncryptRequest):
-    if not payload.secret_yaml.strip():
-        raise HTTPException(status_code=400, detail="secret_yaml is empty")
+    if not payload.value.strip():
+        raise HTTPException(status_code=400, detail="value is empty")
+    if not payload.namespace.strip():
+        raise HTTPException(status_code=400, detail="namespace is empty")
+    if not payload.name.strip():
+        raise HTTPException(status_code=400, detail="name is empty")
 
     try:
         cert_pem = await get_cert()
@@ -73,8 +79,14 @@ async def encrypt(payload: EncryptRequest):
 
     try:
         result = subprocess.run(
-            ["kubeseal", "--cert", cert_path, "--format", "yaml"],
-            input=payload.secret_yaml,
+            [
+                "kubeseal", "--raw",
+                "--namespace", payload.namespace,
+                "--name", payload.name,
+                "--cert", cert_path,
+                "--from-file", "/dev/stdin",
+            ],
+            input=payload.value,
             capture_output=True,
             text=True,
             timeout=15,
@@ -82,7 +94,7 @@ async def encrypt(payload: EncryptRequest):
         if result.returncode != 0:
             logger.error("kubeseal stderr: %s", result.stderr)
             raise HTTPException(status_code=422, detail=result.stderr.strip())
-        return EncryptResponse(sealed_yaml=result.stdout)
+        return EncryptResponse(encrypted=result.stdout.strip())
     finally:
         os.unlink(cert_path)
 

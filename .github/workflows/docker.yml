@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths-ignore:
-      - 'k8s/**'
+      - 'deploy/**'
 
 env:
   IMAGE: ghcr.io/kuvi-99/kubeseal-ui
@@ -36,12 +36,12 @@ jobs:
           push: true
           tags: ${{ env.IMAGE }}:${{ github.run_number }}
 
-      - name: Update image tag in k8s/deployment.yaml
+      - name: Update image tag in deploy/values.yaml
         run: |
-          sed -i "s|image: ${IMAGE}:.*|image: ${IMAGE}:${{ github.run_number }}|" k8s/deployment.yaml
+          sed -i "s|image: ${IMAGE}:.*|image: ${IMAGE}:${{ github.run_number }}|" deploy/values.yaml
 
-      - name: Commit updated deployment
+      - name: Commit updated values
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "ci: update image tag to ${{ github.run_number }}"
-          file_pattern: k8s/deployment.yaml
+          file_pattern: deploy/values.yaml

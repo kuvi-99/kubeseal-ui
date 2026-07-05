@@ -15,26 +15,22 @@
     }
 
     .card {
-      background: rgba(22, 27, 34, 0.9);
+      background: rgba(22, 27, 34, 0.95);
       border: 1px solid rgba(99, 102, 241, 0.2);
       box-shadow:
         0 0 0 1px rgba(99, 102, 241, 0.05),
-        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 8px 32px rgba(0, 0, 0, 0.5),
         0 0 80px rgba(99, 102, 241, 0.06);
     }
 
-    textarea, .output-area {
+    input, textarea {
       background: rgba(13, 17, 23, 0.8);
       border: 1px solid rgba(99, 102, 241, 0.2);
       color: #e6edf3;
-      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
-      font-size: 0.8rem;
-      line-height: 1.6;
-      resize: vertical;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
-    textarea:focus {
+    input:focus, textarea:focus {
       outline: none;
       border-color: rgba(99, 102, 241, 0.6);
       box-shadow:
@@ -42,155 +38,154 @@
         0 0 20px rgba(99, 102, 241, 0.08);
     }
 
+    input::placeholder, textarea::placeholder {
+      color: #4b5563;
+    }
+
+    textarea {
+      font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+      font-size: 0.82rem;
+      line-height: 1.6;
+      resize: vertical;
+    }
+
+    .output-wrap {
+      font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+      font-size: 0.82rem;
+      background: rgba(13, 17, 23, 0.8);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      color: #86efac;
+      word-break: break-all;
+    }
+
     .btn-encrypt {
       background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
       box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
       transition: all 0.2s ease;
     }
-
     .btn-encrypt:hover:not(:disabled) {
       box-shadow: 0 6px 25px rgba(99, 102, 241, 0.5);
       transform: translateY(-1px);
     }
-
-    .btn-encrypt:active:not(:disabled) {
-      transform: translateY(0);
-    }
-
-    .btn-encrypt:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
+    .btn-encrypt:active:not(:disabled) { transform: translateY(0); }
+    .btn-encrypt:disabled { opacity: 0.6; cursor: not-allowed; }
 
     .btn-copy {
-      background: rgba(99, 102, 241, 0.15);
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      color: #a5b4fc;
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: #86efac;
       transition: all 0.15s ease;
     }
-
-    .btn-copy:hover {
-      background: rgba(99, 102, 241, 0.25);
-      border-color: rgba(99, 102, 241, 0.5);
-    }
-
+    .btn-copy:hover { background: rgba(34, 197, 94, 0.22); }
     .btn-copy.copied {
-      background: rgba(34, 197, 94, 0.15);
-      border-color: rgba(34, 197, 94, 0.4);
-      color: #86efac;
-    }
-
-    .output-area {
-      display: none;
-    }
-
-    .output-area.visible {
-      display: block;
+      background: rgba(34, 197, 94, 0.25);
+      border-color: rgba(34, 197, 94, 0.6);
     }
 
     .error-box {
-      display: none;
       background: rgba(239, 68, 68, 0.1);
       border: 1px solid rgba(239, 68, 68, 0.3);
       color: #fca5a5;
     }
 
-    .error-box.visible {
-      display: block;
-    }
-
     .spinner {
-      display: none;
-      width: 18px;
-      height: 18px;
+      width: 16px; height: 16px;
       border: 2px solid rgba(255,255,255,0.3);
       border-top-color: #fff;
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
     }
-
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .label-text {
       color: #8b949e;
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.05em;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
     }
 
     .glow-dot {
-      width: 8px;
-      height: 8px;
+      width: 8px; height: 8px;
       background: #6366f1;
       border-radius: 50%;
-      box-shadow: 0 0 8px rgba(99, 102, 241, 0.8);
+      box-shadow: 0 0 10px rgba(99, 102, 241, 0.9);
       animation: pulse 2s ease-in-out infinite;
+      flex-shrink: 0;
     }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
+    .hint {
+      color: #4b5563;
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
     }
   </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
 
-  <div class="card rounded-2xl p-8 w-full max-w-2xl">
+  <div class="card rounded-2xl p-8 w-full max-w-xl">
 
     <!-- Header -->
-    <div class="flex items-center gap-3 mb-8">
+    <div class="flex items-center gap-3 mb-7">
       <div class="glow-dot"></div>
       <div>
-        <h1 class="text-xl font-semibold text-white tracking-tight">kubeseal-ui</h1>
-        <p class="text-xs text-gray-500 mt-0.5">Encrypt Kubernetes secrets with Sealed Secrets</p>
+        <h1 class="text-lg font-semibold text-white tracking-tight">kubeseal-ui</h1>
+        <p class="text-xs text-gray-500 mt-0.5">Encrypt a secret value — paste the result into <code class="text-indigo-400">encryptedData</code></p>
       </div>
     </div>
 
-    <!-- Input -->
-    <div class="mb-5">
-      <label class="label-text block mb-2">Secret YAML</label>
-      <textarea
-        id="input"
-        rows="12"
-        class="w-full rounded-lg px-4 py-3"
-        placeholder="apiVersion: v1
-kind: Secret
-metadata:
-  name: my-secret
-  namespace: my-namespace
-type: Opaque
-stringData:
-  password: my-super-secret-value
-  api-key: another-secret"
-      ></textarea>
+    <!-- Namespace + Name row -->
+    <div class="grid grid-cols-2 gap-3 mb-4">
+      <div>
+        <label class="label-text block mb-1.5">Namespace</label>
+        <input id="namespace" type="text" placeholder="my-namespace"
+          class="w-full rounded-lg px-3 py-2 text-sm" />
+      </div>
+      <div>
+        <label class="label-text block mb-1.5">Secret name</label>
+        <input id="name" type="text" placeholder="my-secret"
+          class="w-full rounded-lg px-3 py-2 text-sm" />
+      </div>
     </div>
 
-    <!-- Encrypt button -->
-    <button id="encryptBtn" onclick="encrypt()" class="btn-encrypt w-full py-3 rounded-xl text-white font-medium text-sm flex items-center justify-center gap-2">
-      <div class="spinner" id="spinner"></div>
+    <!-- Value -->
+    <div class="mb-5">
+      <label class="label-text block mb-1.5">Raw value</label>
+      <textarea id="value" rows="4"
+        class="w-full rounded-lg px-3 py-2.5"
+        placeholder="token_j2432b3kb"></textarea>
+      <p class="hint mt-1.5">One value at a time. Encrypt each key separately.</p>
+    </div>
+
+    <!-- Button -->
+    <button id="encryptBtn" onclick="encrypt()"
+      class="btn-encrypt w-full py-2.5 rounded-xl text-white font-medium text-sm flex items-center justify-center gap-2">
+      <div class="spinner hidden" id="spinner"></div>
       <span id="btnText">Encrypt</span>
     </button>
 
     <!-- Error -->
-    <div id="errorBox" class="error-box rounded-lg px-4 py-3 mt-4 text-sm font-mono whitespace-pre-wrap"></div>
+    <div id="errorBox" class="hidden error-box rounded-lg px-4 py-3 mt-4 text-sm font-mono whitespace-pre-wrap"></div>
 
     <!-- Output -->
-    <div id="outputBlock" class="mt-6 hidden">
+    <div id="outputBlock" class="hidden mt-6">
       <div class="flex items-center justify-between mb-2">
-        <label class="label-text">Sealed Secret YAML</label>
-        <button id="copyBtn" onclick="copyOutput()" class="btn-copy text-xs px-3 py-1.5 rounded-lg font-medium">
-          Copy
-        </button>
+        <label class="label-text">Encrypted value</label>
+        <button id="copyBtn" onclick="copyOutput()"
+          class="btn-copy text-xs px-3 py-1.5 rounded-lg font-medium">Copy</button>
       </div>
-      <pre id="output" class="output-area visible rounded-lg px-4 py-3 overflow-x-auto whitespace-pre-wrap break-all"></pre>
+      <div id="output" class="output-wrap rounded-lg px-4 py-3 leading-relaxed"></div>
+      <p class="hint mt-2">Paste into <code class="text-indigo-400">secrets.sealed[].encryptedData.&lt;key&gt;</code> in values.yaml</p>
     </div>
 
   </div>
 
   <script>
     async function encrypt() {
-      const input = document.getElementById('input').value.trim();
+      const namespace = document.getElementById('namespace').value.trim();
+      const name = document.getElementById('name').value.trim();
+      const value = document.getElementById('value').value;
       const btn = document.getElementById('encryptBtn');
       const spinner = document.getElementById('spinner');
       const btnText = document.getElementById('btnText');
@@ -198,39 +193,32 @@ stringData:
       const outputBlock = document.getElementById('outputBlock');
       const output = document.getElementById('output');
 
-      errorBox.classList.remove('visible');
+      errorBox.classList.add('hidden');
       outputBlock.classList.add('hidden');
 
-      if (!input) {
-        showError('Paste your Secret YAML first.');
-        return;
-      }
+      if (!namespace) return showError('Namespace is required.');
+      if (!name)      return showError('Secret name is required.');
+      if (!value.trim()) return showError('Raw value is empty.');
 
       btn.disabled = true;
-      spinner.style.display = 'block';
+      spinner.classList.remove('hidden');
       btnText.textContent = 'Encrypting…';
 
       try {
         const resp = await fetch('/encrypt', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ secret_yaml: input }),
+          body: JSON.stringify({ value, namespace, name }),
         });
-
         const data = await resp.json();
-
-        if (!resp.ok) {
-          showError(data.detail || `Error ${resp.status}`);
-          return;
-        }
-
-        output.textContent = data.sealed_yaml;
+        if (!resp.ok) { showError(data.detail || `Error ${resp.status}`); return; }
+        output.textContent = data.encrypted;
         outputBlock.classList.remove('hidden');
       } catch (e) {
         showError('Network error: ' + e.message);
       } finally {
         btn.disabled = false;
-        spinner.style.display = 'none';
+        spinner.classList.add('hidden');
         btnText.textContent = 'Encrypt';
       }
     }
@@ -238,7 +226,7 @@ stringData:
     function showError(msg) {
       const errorBox = document.getElementById('errorBox');
       errorBox.textContent = msg;
-      errorBox.classList.add('visible');
+      errorBox.classList.remove('hidden');
     }
 
     async function copyOutput() {
@@ -247,14 +235,10 @@ stringData:
       await navigator.clipboard.writeText(text);
       btn.textContent = 'Copied!';
       btn.classList.add('copied');
-      setTimeout(() => {
-        btn.textContent = 'Copy';
-        btn.classList.remove('copied');
-      }, 2000);
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
     }
 
-    // Ctrl+Enter to encrypt
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') encrypt();
     });
   </script>

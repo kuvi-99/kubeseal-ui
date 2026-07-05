@@ -98,8 +98,8 @@
       box-shadow: 0 0 10px rgba(99,102,241,0.9); animation: pulse 2s ease-in-out infinite; flex-shrink: 0;
     }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
-    .hint { color: #484f58; font-size: 0.72rem; }
-    .hint code { color: #6366f1; font-family: 'JetBrains Mono', ui-monospace, monospace; }
+    .hint { color: #30363d; font-size: 0.70rem; }
+    .hint code { color: #484f58; font-family: 'JetBrains Mono', ui-monospace, monospace; }
   </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
@@ -119,11 +119,11 @@
     <div class="grid grid-cols-2 gap-3 mb-5">
       <div>
         <label class="label-text block mb-1.5">Namespace</label>
-        <input id="namespace" type="text" placeholder="my-namespace" class="field w-full rounded-lg px-3 py-2 text-sm" />
+        <input id="namespace" type="text" class="field w-full rounded-lg px-3 py-2 text-sm" />
       </div>
       <div>
         <label class="label-text block mb-1.5">Secret name</label>
-        <input id="name" type="text" placeholder="my-secret" class="field w-full rounded-lg px-3 py-2 text-sm" />
+        <input id="name" type="text" class="field w-full rounded-lg px-3 py-2 text-sm" />
       </div>
     </div>
 
@@ -138,9 +138,7 @@
     <div id="entries" class="space-y-2 mb-3"></div>
 
     <!-- Add key button -->
-    <button onclick="addRow()" class="btn-add w-full py-2 rounded-lg text-sm font-medium mb-5">
-      + Add key
-    </button>
+    <button onclick="addRow()" class="btn-add w-full py-2 rounded-lg text-sm font-medium mb-5">+ Add key</button>
 
     <!-- Encrypt button -->
     <button id="encryptBtn" onclick="encrypt()"
@@ -159,9 +157,7 @@
         <button id="copyBtn" onclick="copyYaml()" class="btn-copy px-3 py-1.5 rounded-lg font-medium">Copy YAML</button>
       </div>
       <pre id="yamlOutput" class="yaml-block rounded-lg px-4 py-3 overflow-x-auto whitespace-pre-wrap break-all"></pre>
-      <p class="hint mt-2">
-        Reference in container: <code>envFrom: [{secretRef: {name: &lt;secret-name&gt;}}]</code>
-      </p>
+      <p class="hint mt-2">Чтобы переменные попали в контейнер, добавь <code>envFrom: [{secretRef: {name: &lt;secret-name&gt;}}]</code> в блок containers.</p>
     </div>
 
   </div>
@@ -176,9 +172,9 @@
       div.className = 'entry-row';
       div.id = `row-${id}`;
       div.innerHTML = `
-        <input type="text" placeholder="DB_PASSWORD" value="${escHtml(key)}"
+        <input type="text" value="${escHtml(key)}"
           class="field rounded-lg px-3 py-2 text-sm" data-role="key" />
-        <input type="text" placeholder="secret value" value="${escHtml(value)}"
+        <input type="text" value="${escHtml(value)}"
           class="field rounded-lg px-3 py-2 text-sm font-mono" data-role="value" />
         <button class="btn-remove" onclick="removeRow(${id})" title="Remove">×</button>
       `;

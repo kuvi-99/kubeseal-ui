@@ -23,33 +23,30 @@
         0 0 80px rgba(99, 102, 241, 0.06);
     }
 
-    input, textarea {
-      background: rgba(13, 17, 23, 0.8);
+    .field {
+      background: rgba(13, 17, 23, 0.8) !important;
       border: 1px solid rgba(99, 102, 241, 0.2);
-      color: #e6edf3;
+      color: #e6edf3 !important;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      -webkit-text-fill-color: #e6edf3 !important;
     }
 
-    input:focus, textarea:focus {
+    .field:focus {
       outline: none;
       border-color: rgba(99, 102, 241, 0.6);
-      box-shadow:
-        0 0 0 3px rgba(99, 102, 241, 0.12),
-        0 0 20px rgba(99, 102, 241, 0.08);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12), 0 0 20px rgba(99, 102, 241, 0.08);
     }
 
-    input::placeholder, textarea::placeholder {
-      color: #4b5563;
-    }
+    .field::placeholder { color: #3d4451 !important; }
 
-    textarea {
+    textarea.field {
       font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
       font-size: 0.82rem;
       line-height: 1.6;
       resize: vertical;
     }
 
-    .output-wrap {
+    .encrypted-value {
       font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
       font-size: 0.82rem;
       background: rgba(13, 17, 23, 0.8);
@@ -57,6 +54,21 @@
       color: #86efac;
       word-break: break-all;
     }
+
+    .yaml-block {
+      font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+      font-size: 0.78rem;
+      background: rgba(13, 17, 23, 0.8);
+      border: 1px solid rgba(99, 102, 241, 0.15);
+      color: #c9d1d9;
+      line-height: 1.7;
+    }
+
+    .yaml-key   { color: #79c0ff; }
+    .yaml-val   { color: #a5d6ff; }
+    .yaml-str   { color: #a8ff78; }
+    .yaml-enc   { color: #ffd700; }
+    .yaml-cmt   { color: #484f58; }
 
     .btn-encrypt {
       background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
@@ -75,12 +87,20 @@
       border: 1px solid rgba(34, 197, 94, 0.3);
       color: #86efac;
       transition: all 0.15s ease;
+      font-size: 0.72rem;
     }
     .btn-copy:hover { background: rgba(34, 197, 94, 0.22); }
-    .btn-copy.copied {
-      background: rgba(34, 197, 94, 0.25);
-      border-color: rgba(34, 197, 94, 0.6);
+    .btn-copy.copied { background: rgba(34, 197, 94, 0.25); border-color: rgba(34, 197, 94, 0.6); }
+
+    .btn-copy-yaml {
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: #a5b4fc;
+      transition: all 0.15s ease;
+      font-size: 0.72rem;
     }
+    .btn-copy-yaml:hover { background: rgba(99, 102, 241, 0.22); }
+    .btn-copy-yaml.copied { background: rgba(99, 102, 241, 0.25); border-color: rgba(99, 102, 241, 0.6); }
 
     .error-box {
       background: rgba(239, 68, 68, 0.1);
@@ -115,11 +135,8 @@
     }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
 
-    .hint {
-      color: #4b5563;
-      font-size: 0.72rem;
-      font-family: 'JetBrains Mono', ui-monospace, monospace;
-    }
+    .hint { color: #484f58; font-size: 0.72rem; }
+    .hint code { color: #6366f1; font-family: 'JetBrains Mono', ui-monospace, monospace; }
   </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
@@ -131,34 +148,33 @@
       <div class="glow-dot"></div>
       <div>
         <h1 class="text-lg font-semibold text-white tracking-tight">kubeseal-ui</h1>
-        <p class="text-xs text-gray-500 mt-0.5">Encrypt a secret value — paste the result into <code class="text-indigo-400">encryptedData</code></p>
+        <p class="text-xs text-gray-500 mt-0.5">Encrypt a secret value for Sealed Secrets</p>
       </div>
     </div>
 
-    <!-- Namespace + Name row -->
+    <!-- Namespace + Secret name -->
     <div class="grid grid-cols-2 gap-3 mb-4">
       <div>
         <label class="label-text block mb-1.5">Namespace</label>
         <input id="namespace" type="text" placeholder="my-namespace"
-          class="w-full rounded-lg px-3 py-2 text-sm" />
+          class="field w-full rounded-lg px-3 py-2 text-sm" />
       </div>
       <div>
         <label class="label-text block mb-1.5">Secret name</label>
         <input id="name" type="text" placeholder="my-secret"
-          class="w-full rounded-lg px-3 py-2 text-sm" />
+          class="field w-full rounded-lg px-3 py-2 text-sm" />
       </div>
     </div>
 
-    <!-- Value -->
+    <!-- Raw value -->
     <div class="mb-5">
       <label class="label-text block mb-1.5">Raw value</label>
-      <textarea id="value" rows="4"
-        class="w-full rounded-lg px-3 py-2.5"
-        placeholder="token_j2432b3kb"></textarea>
-      <p class="hint mt-1.5">One value at a time. Encrypt each key separately.</p>
+      <textarea id="value" rows="4" class="field w-full rounded-lg px-3 py-2.5"
+        placeholder="paste secret value here…"></textarea>
+      <p class="hint mt-1.5">One value at a time. Encrypt each key separately and add them to the same secret.</p>
     </div>
 
-    <!-- Button -->
+    <!-- Encrypt button -->
     <button id="encryptBtn" onclick="encrypt()"
       class="btn-encrypt w-full py-2.5 rounded-xl text-white font-medium text-sm flex items-center justify-center gap-2">
       <div class="spinner hidden" id="spinner"></div>
@@ -168,20 +184,75 @@
     <!-- Error -->
     <div id="errorBox" class="hidden error-box rounded-lg px-4 py-3 mt-4 text-sm font-mono whitespace-pre-wrap"></div>
 
-    <!-- Output -->
-    <div id="outputBlock" class="hidden mt-6">
-      <div class="flex items-center justify-between mb-2">
-        <label class="label-text">Encrypted value</label>
-        <button id="copyBtn" onclick="copyOutput()"
-          class="btn-copy text-xs px-3 py-1.5 rounded-lg font-medium">Copy</button>
-      </div>
-      <div id="output" class="output-wrap rounded-lg px-4 py-3 leading-relaxed"></div>
-      <p class="hint mt-2">Paste into <code class="text-indigo-400">secrets.sealed[].encryptedData.&lt;key&gt;</code> in values.yaml</p>
-    </div>
+    <!-- Output block -->
+    <div id="outputBlock" class="hidden mt-6 space-y-4">
 
+      <!-- Encrypted string -->
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <label class="label-text">Encrypted value</label>
+          <button id="copyBtn" onclick="copyEncrypted()"
+            class="btn-copy px-3 py-1.5 rounded-lg font-medium">Copy</button>
+        </div>
+        <div id="encryptedOutput" class="encrypted-value rounded-lg px-4 py-3 leading-relaxed"></div>
+      </div>
+
+      <!-- YAML snippet -->
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <label class="label-text">Add to values.yaml</label>
+          <button id="copyYamlBtn" onclick="copyYaml()"
+            class="btn-copy-yaml px-3 py-1.5 rounded-lg font-medium">Copy YAML</button>
+        </div>
+        <pre id="yamlSnippet" class="yaml-block rounded-lg px-4 py-3 overflow-x-auto"></pre>
+        <p class="hint mt-2">
+          Replace <code>YOUR_KEY</code> with the env variable name (e.g. <code>DB_PASSWORD</code>).
+          Encrypt each value separately and add them to <code>encryptedData</code>.
+        </p>
+      </div>
+
+    </div>
   </div>
 
   <script>
+    let lastEncrypted = '';
+    let lastNamespace = '';
+    let lastName = '';
+
+    function buildYaml(ns, name, enc) {
+      return [
+        `secrets:`,
+        `  sealed:`,
+        `    - name: ${name}`,
+        `      encryptedData:`,
+        `        YOUR_KEY: ${enc}`,
+        ``,
+        `# Reference in container:`,
+        `# deployment:`,
+        `#   containers:`,
+        `#     - envFrom:`,
+        `#         - secretRef:`,
+        `#             name: ${name}`,
+      ].join('\n');
+    }
+
+    function renderYaml(ns, name, enc) {
+      const el = document.getElementById('yamlSnippet');
+      // simple syntax highlight via innerHTML
+      const yaml = buildYaml(ns, name, enc);
+      el.innerHTML = yaml
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/(secrets:|sealed:|encryptedData:|deployment:|containers:|envFrom:)/g,
+          '<span class="yaml-key">$1</span>')
+        .replace(/(- name:|name:|YOUR_KEY:)/g,
+          '<span class="yaml-key">$1</span>')
+        .replace(/(#.*)/g, '<span class="yaml-cmt">$1</span>')
+        .replace(new RegExp(enc.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'),
+          `<span class="yaml-enc">${enc}</span>`)
+        .replace(/(- secretRef:|secretRef:)/g,
+          '<span class="yaml-key">$1</span>');
+    }
+
     async function encrypt() {
       const namespace = document.getElementById('namespace').value.trim();
       const name = document.getElementById('name').value.trim();
@@ -191,7 +262,6 @@
       const btnText = document.getElementById('btnText');
       const errorBox = document.getElementById('errorBox');
       const outputBlock = document.getElementById('outputBlock');
-      const output = document.getElementById('output');
 
       errorBox.classList.add('hidden');
       outputBlock.classList.add('hidden');
@@ -212,7 +282,13 @@
         });
         const data = await resp.json();
         if (!resp.ok) { showError(data.detail || `Error ${resp.status}`); return; }
-        output.textContent = data.encrypted;
+
+        lastEncrypted = data.encrypted;
+        lastNamespace = namespace;
+        lastName = name;
+
+        document.getElementById('encryptedOutput').textContent = data.encrypted;
+        renderYaml(namespace, name, data.encrypted);
         outputBlock.classList.remove('hidden');
       } catch (e) {
         showError('Network error: ' + e.message);
@@ -224,18 +300,23 @@
     }
 
     function showError(msg) {
-      const errorBox = document.getElementById('errorBox');
-      errorBox.textContent = msg;
-      errorBox.classList.remove('hidden');
+      const el = document.getElementById('errorBox');
+      el.textContent = msg;
+      el.classList.remove('hidden');
     }
 
-    async function copyOutput() {
-      const text = document.getElementById('output').textContent;
+    async function copyEncrypted() {
+      await navigator.clipboard.writeText(lastEncrypted);
       const btn = document.getElementById('copyBtn');
-      await navigator.clipboard.writeText(text);
-      btn.textContent = 'Copied!';
-      btn.classList.add('copied');
+      btn.textContent = 'Copied!'; btn.classList.add('copied');
       setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    }
+
+    async function copyYaml() {
+      await navigator.clipboard.writeText(buildYaml(lastNamespace, lastName, lastEncrypted));
+      const btn = document.getElementById('copyYamlBtn');
+      btn.textContent = 'Copied!'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy YAML'; btn.classList.remove('copied'); }, 2000);
     }
 
     document.addEventListener('keydown', e => {
